@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Mamma Mia Pizza — 4 változat</title>
+<style>
+  :root { --hatter: #05070d; --lap: #0c1222; --lap2: #111a30; --vonal: rgba(240,240,240,0.10); --szoveg: #F0F0F0; --halvany: #9aa1b2; --arany: #C5A059; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--hatter); color: var(--szoveg); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1400px; margin: 0 auto; padding: 24px 16px 80px; }
+  h1, h2, h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; letter-spacing: .3px; }
+  h1 { font-size: clamp(26px, 5vw, 40px); }
+  h2 { font-size: 20px; margin: 26px 0 10px; color: var(--arany); }
+  .alcim { color: var(--halvany); max-width: 900px; }
+  .jelmagyarazat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+  .jelmagyarazat div { background: var(--lap); border: 1px solid var(--vonal); border-radius: 12px; padding: 10px 12px; font-size: 14px; color: var(--halvany); }
+  .jelmagyarazat b { color: var(--arany); font-size: 18px; margin-right: 6px; }
+  .kartya { margin-top: 18px; background: var(--lap); border: 1px solid var(--vonal); border-radius: 18px; overflow: hidden; }
+  .kartya.nyitva { border-color: rgba(197,160,89,0.55); }
+  .sor { width: 100%; display: grid; grid-template-columns: 1fr 34px; gap: 14px; align-items: center; padding: 18px; background: none; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .sor:hover { background: rgba(197,160,89,0.05); }
+  .sor:focus-visible, button:focus-visible { outline: 2px solid var(--arany); outline-offset: 2px; }
+  .sor h3 { font-size: 21px; }
+  .nyil { font-size: 22px; color: var(--arany); transition: transform .25s; text-align: center; }
+  .kartya.nyitva .nyil { transform: rotate(180deg); }
+  .tartalom { padding: 0 18px 22px; border-top: 1px solid var(--vonal); }
+  .tartalom[hidden] { display: none; }
+  .vezerlo { position: sticky; top: 0; z-index: 5; margin-top: 14px; padding: 10px; background: rgba(5,7,13,0.94); backdrop-filter: blur(8px); border: 1px solid var(--vonal); border-radius: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .vezerlo button, .hangja, .kuld { font: inherit; font-size: 14px; color: var(--szoveg); background: var(--lap2); border: 1px solid var(--vonal); border-radius: 22px; padding: 8px 14px; cursor: pointer; }
+  .vezerlo .fo { background: var(--arany); color: #000; border-color: var(--arany); font-weight: 700; min-width: 108px; }
+  .vezerlo input[type=range] { flex: 1 1 200px; accent-color: var(--arany); }
+  .ido { font-variant-numeric: tabular-nums; color: var(--halvany); font-size: 14px; min-width: 86px; }
+  .jelenetek { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; }
+  .jelenetek button { padding: 5px 11px; font-size: 13px; }
+  .racs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+  .vid { background: var(--lap2); border: 1px solid var(--vonal); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+  .vid.kivalasztott { outline: 2px solid var(--arany); }
+  .vid video { width: 100%; aspect-ratio: 9/16; background: #000; display: block; }
+  .vid .fej { padding: 10px 12px 4px; }
+  .vid .fej b { color: var(--arany); font-size: 20px; margin-right: 6px; }
+  .vid .leiras { padding: 0 12px 8px; font-size: 13px; color: var(--halvany); }
+  .hangja { margin: 0 12px 12px; font-size: 12px; }
+  .hangja[aria-pressed="true"] { border-color: var(--arany); color: var(--arany); }
+  .lap img { width: 100%; display: block; border-radius: 12px; border: 1px solid var(--vonal); cursor: zoom-in; }
+  .itelet { background: var(--lap2); border-left: 3px solid var(--arany); border-radius: 8px; padding: 12px 14px; }
+  .ertekel { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .ert { background: var(--lap2); border: 1px solid var(--vonal); border-radius: 14px; padding: 12px; }
+  .ert b { color: var(--arany); font-size: 18px; }
+  .csillagok { display: flex; gap: 2px; margin-top: 6px; }
+  .csillagok button { font-size: 28px; line-height: 1; background: none; border: 0; color: #3a4258; cursor: pointer; padding: 2px; }
+  .csillagok button.be { color: var(--arany); }
+  textarea { width: 100%; min-height: 56px; margin-top: 6px; font: inherit; font-size: 14px; color: var(--szoveg); background: var(--lap); border: 1px solid var(--vonal); border-radius: 10px; padding: 8px; }
+  .kuldsor { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .kuld { background: var(--arany); color: #000; font-weight: 700; border-color: var(--arany); padding: 10px 18px; font-size: 15px; }
+  .uzenet { color: var(--halvany); font-size: 14px; }
+  #nagy { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; z-index: 20; cursor: zoom-out; padding: 12px; }
+  #nagy img { max-width: 100%; max-height: 100%; }
+  @media (max-width: 900px) { .racs, .ertekel, .jelmagyarazat { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="cim"></h1>
+  <p class="alcim">Ugyanazt a videót négyféleképpen készítettük el. Nézd meg őket egymás mellett, és mondd meg, melyik tetszik a legjobban — a csillagok
+    és a megjegyzések a te telefonodon / gépeden maradnak, a „Vélemény küldése” gombbal tudod elküldeni nekem.</p>
+  <div class="jelmagyarazat" id="jelm"></div>
+  <div id="lista"></div>
+</main>
+<div id="nagy" role="dialog" aria-label="Nagyított kép"><img alt=""></div>
+<script>
+  const ADAT = {"cim": "Mamma Mia Pizza — 4 változat", "osszevetesek": [{"kulcs": "mammamia-pizzatura", "cim": "Mamma Mia Pizza — „Pizzatúra 20 másodpercben”", "al": "Egy gyors ételvideó nyelvén: közeli a peremre, gyors vágások a kínálaton, a „Nápolyi stílusú” pizza nagyban, a végén a rendelés — alul végig visszaszámláló.", "hossz": 20, "jelenetek": [["Nyitás", 0], ["Pizzák", 2], ["A nagy pizza", 8], ["Kettős képek", 11], ["Rendelés", 16]], "itelet": "A mi sorrendünk: D, B, C, A. A D a legélesebb és a leglendületesebb: a javított változat mozgása, a pizzaképek tisztábban, olasz színekkel a végén.", "valtozatok": [{"k": "a", "betu": "A", "nev": "Az alap", "mod": "a saját módszerünkkel, szemre ellenőrizve", "leiras": "Közeli a pizzák peremére, gyors vágások a kínálaton, a „Nápolyi stílusú” pizza nagyban, végül a rendelés — alul végig egy visszaszámláló.", "src": "mammamia-pizzatura/a/video.mp4", "poszter": "mammamia-pizzatura/a/poszter.jpg"}, {"k": "b", "betu": "B", "nev": "Javított", "mod": "az A, a mintavideóval jelenetenként összevetve és javítva", "leiras": "Ugyanaz lendületesebben: nagy visszaszámláló, hulló liszt a nagy pizzán, széles kettős képek, a rendelés felhívása a pizza fotóján.", "src": "mammamia-pizzatura/b/video.mp4", "poszter": "mammamia-pizzatura/b/poszter.jpg"}, {"k": "c", "betu": "C", "nev": "Más eszközzel", "mod": "egy másik videós eszköz saját módszerével, külön elkészítve", "leiras": "Ugyanaz más kivitelben: a pizzák élesen, keretben, fénysáv a nagy pizzán, krémszínű záró kártya olasz csíkkal.", "src": "mammamia-pizzatura/c/video.mp4", "poszter": "mammamia-pizzatura/c/poszter.jpg"}, {"k": "d", "betu": "D", "nev": "A legjobb részekből", "mod": "a B lendülete + a C igényes részletei", "leiras": "A lendületes változat finomabb kivitelben: élesebb pizzaképek, váltakozó feliratok, olasz csík a rendelés felhívásán.", "src": "mammamia-pizzatura/d/video.mp4", "poszter": "mammamia-pizzatura/d/poszter.jpg"}], "lap": "mammamia-pizzatura/jelenetek.jpg"}], "egy": true};
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const mp = (x) => x.toFixed(1).replace(".", ",");
+  document.getElementById("cim").textContent = ADAT.cim;
+  const V = ADAT.osszevetesek[0].valtozatok;
+  document.getElementById("jelm").innerHTML = V.map((v) => `<div><b>${v.betu}</b>${esc(v.nev)} — ${esc(v.mod)}</div>`).join("");
+
+  function lejatszo(o, gy) {
+    const racs = gy.querySelector(".racs");
+    const vk = o.valtozatok.map((v) => {
+      const d = document.createElement("div"); d.className = "vid";
+      d.innerHTML = `<video preload="metadata" playsinline muted poster="${v.poszter}" src="${v.src}"></video>
+        <div class="fej"><b>${v.betu}</b>${esc(v.nev)}</div><div class="leiras">${esc(v.leiras)}</div>
+        <button class="hangja" type="button" aria-pressed="false">🔈 Ennek a hangja</button>`;
+      racs.appendChild(d); return { d, vid: d.querySelector("video"), gomb: d.querySelector(".hangja") };
+    });
+    const fo = vk[0].vid, cs = gy.querySelector("input[type=range]"), ido = gy.querySelector(".ido"), lej = gy.querySelector(".fo"), las = gy.querySelector(".lassit");
+    cs.max = o.hossz; ido.textContent = `0,0 / ${mp(o.hossz)} s`;
+    let fut = false, seb = 1;
+    const mind = (f) => vk.forEach((x) => { try { f(x.vid); } catch (e) {} });
+    const ugrik = (t) => { mind((v) => { v.currentTime = t; }); cs.value = t; ido.textContent = `${mp(t)} / ${mp(o.hossz)} s`; };
+    const allj = () => { fut = false; mind((v) => v.pause()); lej.textContent = "▶ Lejátszás"; };
+    lej.onclick = () => { if (fut) return allj(); fut = true; const t = fo.currentTime; mind((v) => { v.currentTime = t; v.playbackRate = seb; v.play().catch(() => {}); }); lej.textContent = "❚❚ Szünet"; };
+    las.onclick = () => { seb = seb === 1 ? 0.5 : seb === 0.5 ? 0.25 : 1; las.textContent = `Sebesség: ${String(seb).replace(".", ",")}×`; mind((v) => { v.playbackRate = seb; }); };
+    cs.oninput = () => ugrik(+cs.value);
+    fo.addEventListener("timeupdate", () => { cs.value = fo.currentTime; ido.textContent = `${mp(fo.currentTime)} / ${mp(o.hossz)} s`;
+      mind((v) => { if (v !== fo && Math.abs(v.currentTime - fo.currentTime) > 0.15) v.currentTime = fo.currentTime; }); });
+    fo.addEventListener("ended", allj);
+    vk.forEach((x) => x.gomb.onclick = () => { const most = x.gomb.getAttribute("aria-pressed") !== "true";
+      vk.forEach((y) => { y.gomb.setAttribute("aria-pressed", "false"); y.vid.muted = true; y.d.classList.remove("kivalasztott"); });
+      if (most) { x.gomb.setAttribute("aria-pressed", "true"); x.vid.muted = false; x.d.classList.add("kivalasztott"); } });
+    const j = gy.querySelector(".jelenetek");
+    o.jelenetek.forEach(([n, t]) => { const b = document.createElement("button"); b.type = "button"; b.textContent = n; b.onclick = () => ugrik(t + 0.01); j.appendChild(b); });
+    return allj;
+  }
+
+  function ertekelo(o, gy) {
+    const KULCS = "ertekeles:" + o.kulcs;
+    let tar = {}; try { tar = JSON.parse(localStorage.getItem(KULCS) || "{}"); } catch (e) {}
+    const ment = () => { try { localStorage.setItem(KULCS, JSON.stringify(tar)); } catch (e) {} };
+    const hely = gy.querySelector(".ertekel");
+    hely.innerHTML = o.valtozatok.map((v) => `<div class="ert" data-k="${v.k}"><b>${v.betu}</b> ${esc(v.nev)}
+      <div class="csillagok" role="radiogroup" aria-label="Pontszám">${[1,2,3,4,5].map((i) => `<button type="button" data-p="${i}" aria-label="${i} csillag">★</button>`).join("")}</div>
+      <textarea placeholder="Mi tetszik, mi nem?" aria-label="Megjegyzés"></textarea></div>`).join("");
+    hely.querySelectorAll(".ert").forEach((k) => {
+      const kk = k.dataset.k, g = [...k.querySelectorAll(".csillagok button")], ta = k.querySelector("textarea");
+      const rajz = () => g.forEach((b) => b.classList.toggle("be", +b.dataset.p <= ((tar[kk] || {}).p || 0)));
+      g.forEach((b) => b.onclick = () => { tar[kk] = { ...(tar[kk] || {}), p: +b.dataset.p }; ment(); rajz(); });
+      ta.value = (tar[kk] || {}).m || ""; ta.oninput = () => { tar[kk] = { ...(tar[kk] || {}), m: ta.value }; ment(); };
+      rajz();
+    });
+    const uz = gy.querySelector(".uzenet");
+    gy.querySelector(".kuld").onclick = async () => {
+      const sorok = [`${o.cim}`].concat(o.valtozatok.map((v) => { const e = tar[v.k] || {};
+        return `${v.betu} (${v.nev}): ${e.p ? "★".repeat(e.p) + "☆".repeat(5 - e.p) : "–"}${e.m ? " — " + e.m : ""}`; }));
+      const szoveg = sorok.join("\n");
+      try { if (navigator.share) { await navigator.share({ text: szoveg }); uz.textContent = "Elküldve — köszönöm!"; return; } } catch (e) { if (e && e.name === "AbortError") return; }
+      try { await navigator.clipboard.writeText(szoveg); uz.textContent = "Kimásolva — illeszd be egy üzenetbe (Messenger, SMS, e-mail)."; }
+      catch (e) { uz.textContent = szoveg; }
+    };
+  }
+
+  const lista = document.getElementById("lista");
+  ADAT.osszevetesek.forEach((o, i) => {
+    const k = document.createElement("section"); k.className = "kartya";
+    k.innerHTML = `<button class="sor" type="button" aria-expanded="false" aria-controls="t${i}"><span><h3>${esc(o.cim)}</h3>
+      <span class="alcim" style="display:block;margin-top:4px">${esc(o.al)}</span></span><span class="nyil" aria-hidden="true">▾</span></button>
+      <div class="tartalom" id="t${i}" hidden></div>`;
+    lista.appendChild(k);
+    const sor = k.querySelector(".sor"), t = k.querySelector(".tartalom");
+    let allj = null, kesz = false;
+    sor.onclick = () => {
+      const nyit = t.hidden; t.hidden = !nyit; k.classList.toggle("nyitva", nyit); sor.setAttribute("aria-expanded", String(nyit));
+      if (nyit && !kesz) {
+        kesz = true;
+        t.innerHTML = `<div class="vezerlo"><button class="fo" type="button">▶ Lejátszás</button><input type="range" min="0" step="0.01" value="0" aria-label="Időpont">
+          <span class="ido"></span><button class="lassit" type="button">Sebesség: 1×</button><div class="jelenetek"></div></div>
+          <div class="racs"></div>
+          <h2>Jelenetenként egymás mellett</h2><div class="lap"><img src="${o.lap}" alt="A négy változat jelenetenként" loading="lazy"></div>
+          <h2>Az én véleményem</h2><p class="itelet">${esc(o.itelet)}</p>
+          <h2>A te véleményed</h2><div class="ertekel"></div>
+          <div class="kuldsor"><button class="kuld" type="button">✉ Vélemény küldése</button><span class="uzenet"></span></div>`;
+        allj = lejatszo(o, t); ertekelo(o, t);
+      }
+      if (!nyit && allj) allj();
+    };
+    if (ADAT.egy) sor.click();
+  });
+  const nagy = document.getElementById("nagy");
+  lista.addEventListener("click", (e) => { if (e.target.tagName === "IMG" && e.target.closest(".lap")) { nagy.querySelector("img").src = e.target.src; nagy.style.display = "flex"; } });
+  nagy.onclick = () => { nagy.style.display = "none"; };
+</script>
+</body>
+</html>
